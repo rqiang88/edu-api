@@ -1,0 +1,24 @@
+{
+  "type": "mysql",
+  "host": "localhost",
+  "port": "3306",
+  "username": "root",
+  "password": "12345678",
+  "database": "edu-api",
+  "synchronize": true,
+  "logging": false,
+  "entities": [
+     "build/entities/**/*.js"
+  ],
+  "migrations": [
+     "build/migrations/**/*.js"
+  ],
+  "subscribers": [
+     "src/subscribers/**/*.ts"
+  ],
+  "cli": {
+     "entitiesDir": "src/entities",
+     "migrationsDir": "src/migrations",
+     "subscribersDir": "src/subscribers"
+  }
+}

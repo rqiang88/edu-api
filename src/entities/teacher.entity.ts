@@ -1,0 +1,78 @@
+import { School } from './school.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  DeleteDateColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Column,
+  ManyToOne,
+  BeforeInsert,
+  JoinColumn,
+  Unique
+} from 'typeorm';
+import { digest } from '@/utils/digest.util';
+
+@Entity({ name: 'teachers' })
+@Unique(['cardNo', 'schoolId'])
+export class Teacher {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ name: 'school_id', nullable: true })
+  schoolId: number;
+
+  @Column({ nullable: true })
+  state: string;
+
+  @Column({ nullable: true, comment: '姓名' })
+  name: string;
+
+  @Column({ nullable: true, comment: '性别' })
+  sex: string;
+
+  @Column({ nullable: true, comment: '联系电话' })
+  mobile: string;
+
+  @Column({ nullable: true })
+  password: string;
+
+  @Column({ nullable: true, name: 'card_no', comment: '证件号' })
+  cardNo: string;
+
+  @Column({ nullable: true, type: 'date', comment: '生日' })
+  birthday: Date;
+
+  @Column({ nullable: true, comment: '民族' })
+  nation: string;
+
+  @Column({ nullable: true, comment: '籍贯' })
+  native: string;
+
+  @Column({ nullable: true, comment: '学历' })
+  education: string;
+
+  @Column({ nullable: true, comment: '地址' })
+  address: string;
+
+  @Column({ nullable: true, comment: '备注' })
+  remark: string;
+
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true, select: false })
+  deletedAt: Date;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
+  @ManyToOne(() => School)
+  @JoinColumn({ name: 'school_id' })
+  school: School;
+
+  @BeforeInsert()
+  init() {
+    Object.assign(this, { state: 'active', password: digest(this.password) });
+  }
+}

@@ -11,7 +11,6 @@ import { AuthModule } from './auth/auth.module';
 import { DepartmentsModule } from './departments/departments.module';
 import { StudentInfosModule } from './student-infos/student-infos.module';
 import { TeacherInfosModule } from './teacher-infos/teacher-infos.module';
-
 @Module({
   imports: [
     TypeOrmModule.forRoot(),

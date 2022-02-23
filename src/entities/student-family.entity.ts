@@ -24,7 +24,7 @@ export class StudentFamily {
   @Column({ name: 'family_id' })
   familyId: number;
 
-  @Column()
+  @Column({ nullable: true })
   remark: string;
 
   @DeleteDateColumn({ name: 'deleted_at', nullable: true, select: false })

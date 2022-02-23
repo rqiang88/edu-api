@@ -1,4 +1,3 @@
-import { StudentFamily } from './student-family.entity';
 import {
   Entity,
   Column,
@@ -10,6 +9,8 @@ import {
   Unique
 } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
+import { Student } from './student.entity';
+import { StudentFamily } from './student-family.entity';
 
 @Entity({ name: 'families' })
 @Unique(['schoolId', 'cardNo'])
@@ -65,6 +66,8 @@ export class Family {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  students: Student[] = [];
 
   @OneToMany(() => StudentFamily, sFamily => sFamily.family)
   studentFamilies: StudentFamily[];

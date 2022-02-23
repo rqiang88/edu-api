@@ -1,3 +1,4 @@
+import { Family } from '@/entities/family.entity';
 import { Student } from '@/entities/student.entity';
 import { BaseService } from '@/lib/base.service';
 import { Injectable } from '@nestjs/common';
@@ -10,12 +11,25 @@ import { UpdateStudentDto as U } from './dto/update-student.dto';
 export class StudentsService extends BaseService<Student, C, U> {
   constructor(
     @InjectRepository(Student)
-    private readonly studentServices: Repository<Student>
+    private readonly studentRepository: Repository<Student>,
+    @InjectRepository(Family)
+    private readonly familyRepository: Repository<Family>
   ) {
-    super(studentServices);
+    super(studentRepository);
   }
 
   async findOne(id: number): Promise<Student> {
-    return await this.repository.findOneOrFail(id, { relations: ['families'] });
+    const data = await this.repository.findOneOrFail(id);
+    const families = await this.getFamilies(id);
+    Object.assign(data, { families });
+    return data;
+  }
+
+  async getFamilies(id: number): Promise<Family[]> {
+    const { studentFamilies } = await this.repository.findOneOrFail(id, {
+      relations: ['studentFamilies']
+    });
+    const familyIds = studentFamilies.filter(s => s.familyId);
+    return await this.familyRepository.findByIds(familyIds);
   }
 }

@@ -1,3 +1,4 @@
+import { StudentFamily } from '@/entities/student-family.entity';
 import { Family } from '@/entities/family.entity';
 import { IQuery } from '@/interfaces/query.interface';
 import { BaseService } from '@/lib/base.service';
@@ -14,6 +15,8 @@ export class FamiliesService extends BaseService<Family, C, U, Q> {
   constructor(
     @InjectRepository(Family)
     private readonly familyRepository: Repository<Family>,
+    @InjectRepository(StudentFamily)
+    private readonly studentFamilyRepository: Repository<StudentFamily>,
     @InjectRepository(Student)
     private readonly studentRepository: Repository<Student>
   ) {
@@ -37,13 +40,31 @@ export class FamiliesService extends BaseService<Family, C, U, Q> {
 
   async create(params: C): Promise<Family> {
     const { studentId } = params;
-    Reflect.deleteProperty(params, 'schoolId');
+    Reflect.deleteProperty(params, 'studentId');
     const entity = await this.repository.create(params);
-    if (studentId) {
-      const student = await this.studentRepository.findOneOrFail(studentId);
-      Object.assign(entity, { students: [student] });
-    }
     const data = await this.repository.save(entity);
+    if (studentId) {
+      const studentFamily = await this.studentFamilyRepository.create({
+        studentId,
+        family: data
+      });
+      await this.studentFamilyRepository.save(studentFamily);
+    }
     return data;
+  }
+
+  async findOne(id: number): Promise<Family> {
+    const data = await this.repository.findOneOrFail(id);
+    const students = await this.getStudents(id);
+    Object.assign(data, { students });
+    return data;
+  }
+
+  async getStudents(id: number): Promise<Student[]> {
+    const { studentFamilies } = await this.repository.findOneOrFail(id, {
+      relations: ['studentFamilies']
+    });
+    const studentIds = studentFamilies.filter(s => s.studentId);
+    return await this.studentRepository.findByIds(studentIds);
   }
 }

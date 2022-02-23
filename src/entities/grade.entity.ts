@@ -10,11 +10,9 @@ import {
   ManyToOne,
   JoinColumn,
   Unique,
-  OneToMany,
-  ManyToMany
+  OneToMany
 } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
-import { Student } from './student.entity';
 
 @Entity({ name: 'grades' })
 @Unique(['schoolId', 'name'])
@@ -50,7 +48,4 @@ export class Grade {
 
   @OneToMany(() => StudentInfo, sInfo => sInfo.grade)
   studentInfos: StudentInfo[];
-
-  // @ManyToMany(() => Student, student => student.grades)
-  // students: Student[];
 }

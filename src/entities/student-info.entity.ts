@@ -55,7 +55,7 @@ export class StudentInfo {
   @JoinColumn({ name: 'student_id' })
   student: Student;
 
-  @ManyToOne(() => Grade)
+  @ManyToOne(() => Grade, grade => grade.studentInfos, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'grade_id' })
   grade: Grade;
 }

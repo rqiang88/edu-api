@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 import { digest } from '@/utils/digest.util';
+import { Family } from './family.entity';
 
 @Entity({ name: 'students' })
 @Unique(['cardNo', 'schoolId'])
@@ -76,6 +77,8 @@ export class Student {
 
   @OneToMany(() => StudentFamily, studentFamily => studentFamily.student)
   studentFamilies: StudentFamily[];
+
+  families: Family[] = [];
 
   @BeforeInsert()
   init() {

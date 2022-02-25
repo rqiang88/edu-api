@@ -1,23 +1,11 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  DeleteDateColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-  Unique
-} from 'typeorm';
+import { Entity, Column, OneToMany, Unique } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
-import { Student } from './student.entity';
-import { StudentFamily } from './student-family.entity';
-
+import { BaseEntity } from '@/entities/base.entity';
+import { Student } from '@/entities/student.entity';
+import { StudentFamily } from '@/entities/student-family.entity';
 @Entity({ name: 'families' })
 @Unique(['schoolId', 'cardNo'])
-export class Family {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Family extends BaseEntity {
   @Column({ name: 'school_id', nullable: true })
   schoolId: number;
 
@@ -57,15 +45,6 @@ export class Family {
 
   @Column({ nullable: true, comment: '备注' })
   remark: string;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
-  deletedAt: Date;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 
   students: Student[] = [];
 

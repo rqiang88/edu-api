@@ -1,23 +1,11 @@
-import {
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  Unique
-} from 'typeorm';
-import { Family } from './family.entity';
-import { Student } from './student.entity';
+import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm';
+import { BaseEntity } from '@/entities/base.entity';
+import { Family } from '@/entities/family.entity';
+import { Student } from '@/entities/student.entity';
 
 @Entity({ name: 'student_families' })
 @Unique(['studentId', 'familyId'])
-export class StudentFamily {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class StudentFamily extends BaseEntity {
   @Column({ name: 'student_id' })
   studentId: number;
 
@@ -26,15 +14,6 @@ export class StudentFamily {
 
   @Column({ nullable: true })
   remark: string;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true, select: false })
-  deletedAt: Date;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 
   @ManyToOne(() => Student, student => student.studentFamilies)
   @JoinColumn({ name: 'student_id' })

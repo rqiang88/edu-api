@@ -1,23 +1,11 @@
-import { Validate as ValidateEntity } from '@/decorators/validate.decorator';
+import { Entity, Column, OneToMany, BeforeInsert, JoinColumn } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  OneToMany,
-  BeforeInsert,
-  JoinColumn
-} from 'typeorm';
-import { Teacher } from './teacher.entity';
+import { Validate } from '@/decorators/validate.decorator';
+import { BaseEntity } from '@/entities/base.entity';
+import { Teacher } from '@/entities/teacher.entity';
 
 @Entity({ name: 'schools' })
-export class School {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class School extends BaseEntity {
   @Column({ nullable: true })
   state: string;
 
@@ -32,21 +20,12 @@ export class School {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true, select: false })
-  deletedAt: Date;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
-
   @OneToMany(() => Teacher, teacher => teacher.school)
   @JoinColumn({ name: 'school_id' })
   teachers: Teacher[];
 
   @BeforeInsert()
-  @ValidateEntity()
+  @Validate()
   init() {
     Object.assign(this, { state: 'active' });
   }

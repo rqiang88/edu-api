@@ -1,19 +1,9 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  TableInheritance,
-  UpdateDateColumn
-} from 'typeorm';
+import { Column, Entity, TableInheritance } from 'typeorm';
+import { BaseEntity } from '@/entities/base.entity';
 
 @Entity({ name: 'articles' })
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
-export class Article {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Article extends BaseEntity {
   @Column()
   schoolId: number;
 
@@ -28,13 +18,4 @@ export class Article {
 
   @Column({ type: 'json' })
   meta: object;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
-  deletedAt: Date;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 }

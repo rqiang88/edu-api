@@ -1,10 +1,5 @@
-import { School } from './school.entity';
 import {
   Entity,
-  PrimaryGeneratedColumn,
-  DeleteDateColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
   Column,
   ManyToOne,
   BeforeInsert,
@@ -12,13 +7,12 @@ import {
   Unique
 } from 'typeorm';
 import { digest } from '@/utils/digest.util';
+import { BaseEntity } from '@/entities/base.entity';
+import { School } from '@/entities/school.entity';
 
 @Entity({ name: 'teachers' })
 @Unique(['cardNo', 'schoolId'])
-export class Teacher {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Teacher extends BaseEntity {
   @Column({ name: 'school_id', nullable: true })
   schoolId: number;
 
@@ -57,15 +51,6 @@ export class Teacher {
 
   @Column({ nullable: true, comment: '备注' })
   remark: string;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true, select: false })
-  deletedAt: Date;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 
   @ManyToOne(() => School)
   @JoinColumn({ name: 'school_id' })

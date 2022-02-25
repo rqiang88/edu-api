@@ -1,25 +1,19 @@
-import { StudentInfo } from './student-info.entity';
-import { School } from './school.entity';
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
-  DeleteDateColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
   ManyToOne,
   JoinColumn,
   Unique,
   OneToMany
 } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
+import { BaseEntity } from '@/entities/base.entity';
+import { StudentInfo } from '@/entities/student-info.entity';
+import { School } from '@/entities/school.entity';
 
 @Entity({ name: 'grades' })
 @Unique(['schoolId', 'name'])
-export class Grade {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Grade extends BaseEntity {
   @Column({ name: 'school_id', nullable: true })
   schoolId: number;
 
@@ -32,15 +26,6 @@ export class Grade {
 
   @Column({ nullable: true, comment: '备注' })
   remark: string;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true, select: false })
-  deletedAt: Date;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 
   @ManyToOne(() => School)
   @JoinColumn({ name: 'school_id' })

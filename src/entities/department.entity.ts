@@ -1,22 +1,16 @@
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinColumn,
-  PrimaryGeneratedColumn,
   Tree,
   TreeChildren,
-  TreeParent,
-  UpdateDateColumn
+  TreeParent
 } from 'typeorm';
+import { BaseEntity } from '@/entities/base.entity';
 
 @Entity({ name: 'departments' })
 @Tree('materialized-path')
-export class Department {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Department extends BaseEntity {
   @Column({ name: 'school_id', nullable: true })
   schoolId: number;
 
@@ -31,15 +25,6 @@ export class Department {
 
   @Column({ nullable: true })
   remark: string;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
-  deletedAt: Date;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 
   @TreeChildren()
   @JoinColumn({ name: 'parent_id' })

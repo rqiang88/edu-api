@@ -1,26 +1,14 @@
-import { StudentFamily } from './student-family.entity';
-import { StudentInfo } from './student-info.entity';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  DeleteDateColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-  BeforeInsert,
-  Unique
-} from 'typeorm';
+import { Entity, Column, OneToMany, BeforeInsert, Unique } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 import { digest } from '@/utils/digest.util';
-import { Family } from './family.entity';
+import { BaseEntity } from '@/entities/base.entity';
+import { StudentFamily } from '@/entities/student-family.entity';
+import { StudentInfo } from '@/entities/student-info.entity';
+import { Family } from '@/entities/family.entity';
 
 @Entity({ name: 'students' })
 @Unique(['cardNo', 'schoolId'])
-export class Student {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Student extends BaseEntity {
   @Column({ name: 'school_id', nullable: true })
   schoolId: number;
 
@@ -62,15 +50,6 @@ export class Student {
 
   @Column({ nullable: true, comment: '备注' })
   remark: string;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
-  deletedAt: Date;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 
   @OneToMany(() => StudentInfo, studentInfo => studentInfo.student)
   studentInfos: StudentInfo[];

@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { DepartmentsModule } from './departments/departments.module';
 import { StudentInfosModule } from './student-infos/student-infos.module';
 import { TeacherInfosModule } from './teacher-infos/teacher-infos.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
@@ -22,7 +23,8 @@ import { TeacherInfosModule } from './teacher-infos/teacher-infos.module';
     AuthModule,
     DepartmentsModule,
     StudentInfosModule,
-    TeacherInfosModule
+    TeacherInfosModule,
+    DashboardModule
   ],
   controllers: [AppController],
   providers: [AppService]

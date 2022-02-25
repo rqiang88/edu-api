@@ -39,7 +39,9 @@ export class AllExceptionFilter implements ExceptionFilter {
     const message =
       exception instanceof HttpException ? exception.message : exception;
 
-    // logger.error(message);
+    logger.error(
+      typeof message === 'string' ? message : JSON.stringify(message)
+    );
     console.log(message);
     response.status(code).json({
       code,

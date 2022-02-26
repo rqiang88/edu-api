@@ -18,7 +18,7 @@ module.exports = {
       path: '/home/rxq/node/edu-api',
       'pre-deploy-local': '',
       'post-deploy':
-        'yarn install && pm2 reload ecosystem.config.js --env production',
+        'yarn install && yarn build && pm2 reload ecosystem.config.js --env production',
       'pre-setup': ''
     }
   }

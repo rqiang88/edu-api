@@ -7,3 +7,4 @@ temp/
 logs/
 ormconfig.json
 .env
+ecosystem.config.js

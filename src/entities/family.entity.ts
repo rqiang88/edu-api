@@ -1,8 +1,9 @@
-import { Entity, Column, OneToMany, Unique } from 'typeorm';
+import { Entity, Column, OneToMany, Unique, BeforeInsert } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 import { BaseEntity } from '@/entities/base.entity';
 import { Student } from '@/entities/student.entity';
 import { StudentFamily } from '@/entities/student-family.entity';
+import { Validate } from '@/decorators/validate.decorator';
 @Entity({ name: 'families' })
 @Unique(['schoolId', 'cardNo'])
 export class Family extends BaseEntity {
@@ -50,4 +51,8 @@ export class Family extends BaseEntity {
 
   @OneToMany(() => StudentFamily, sFamily => sFamily.family)
   studentFamilies: StudentFamily[];
+
+  @BeforeInsert()
+  @Validate()
+  init() {}
 }

@@ -9,6 +9,8 @@ import {
 import { digest } from '@/utils/digest.util';
 import { BaseEntity } from '@/entities/base.entity';
 import { School } from '@/entities/school.entity';
+import { IsNotEmpty } from 'class-validator';
+import { Validate } from '@/decorators/validate.decorator';
 
 @Entity({ name: 'teachers' })
 @Unique(['cardNo', 'schoolId'])
@@ -19,18 +21,22 @@ export class Teacher extends BaseEntity {
   @Column({ nullable: true })
   state: string;
 
+  @IsNotEmpty()
   @Column({ nullable: true, comment: '姓名' })
   name: string;
 
+  @IsNotEmpty()
   @Column({ nullable: true, comment: '性别' })
   sex: string;
 
+  @IsNotEmpty()
   @Column({ nullable: true, comment: '联系电话' })
   mobile: string;
 
   @Column({ nullable: true })
   password: string;
 
+  @IsNotEmpty()
   @Column({ nullable: true, name: 'card_no', comment: '证件号' })
   cardNo: string;
 
@@ -57,6 +63,7 @@ export class Teacher extends BaseEntity {
   school: School;
 
   @BeforeInsert()
+  @Validate()
   init() {
     Object.assign(this, { state: 'active', password: digest(this.password) });
   }

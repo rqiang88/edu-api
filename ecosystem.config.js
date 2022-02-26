@@ -17,7 +17,7 @@ module.exports = {
       repo: 'https://github.com/rqiang88/edu-api.git',
       path: '/home/rxq/node/edu-api/',
       'post-deploy':
-        'yarn install && yarn build && pm2 reload ecosystem.config.js --env production'
+        'yarn install && yarn build && typeorm migration:run && pm2 reload ecosystem.config.js --env production'
     }
   }
 };

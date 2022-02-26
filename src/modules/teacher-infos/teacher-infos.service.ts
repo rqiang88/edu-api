@@ -1,4 +1,3 @@
-import { TeacherInfo } from '@/entities/Teacher-info.entity';
 import { BaseService } from '@/lib/base.service';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +6,7 @@ import { CreateTeacherInfoDto as C } from './dto/create-teacher-info.dto';
 import { UpdateTeacherInfoDto as U } from './dto/update-teacher-info.dto';
 import { QueryTeacherInfoDto as Q } from './dto/query-teacher-info.dto';
 import { IQuery } from '@/interfaces/query.interface';
+import { TeacherInfo } from '@/entities/teacher-info.entity';
 
 @Injectable()
 export class TeacherInfosService extends BaseService<TeacherInfo, C, U, Q> {

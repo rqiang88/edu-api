@@ -15,7 +15,6 @@ export class TeachersController extends BaseController<Teacher, C, U, Q> {
 
   @Post(':id/reset')
   async reset(@Param('id') id: string, @Body() { password }: R) {
-    console.log(id, password);
     return await this.teachersService.reset(+id, password);
   }
 }

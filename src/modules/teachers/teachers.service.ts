@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { CreateTeacherDto as C } from './dto/create-teacher.dto';
 import { UpdateTeacherDto as U } from './dto/update-teacher.dto';
 import { QueryTeacherDto as Q } from './dto/query-teacher.dto';
+import { digest } from '@/utils/digest.util';
 
 @Injectable()
 export class TeachersService extends BaseService<Teacher, C, U, Q> {
@@ -34,5 +35,10 @@ export class TeachersService extends BaseService<Teacher, C, U, Q> {
     const paginate = { page, limit, totalCount };
 
     return { records, paginate };
+  }
+
+  async reset(id: number, password: string) {
+    await this.repository.update(id, { password: digest(password) });
+    return await this.repository.findOneOrFail(id);
   }
 }

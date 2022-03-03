@@ -4,8 +4,7 @@ import {
   ManyToOne,
   BeforeInsert,
   JoinColumn,
-  Unique,
-  BeforeUpdate
+  Unique
 } from 'typeorm';
 import { digest } from '@/utils/digest.util';
 import { BaseEntity } from '@/entities/base.entity';

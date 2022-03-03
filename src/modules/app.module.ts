@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { SchoolsModule } from './schools/schools.module';
 import { GradesModule } from './grades/grades.module';
 import { TeachersModule } from './teachers/teachers.module';
@@ -12,6 +10,7 @@ import { DepartmentsModule } from './departments/departments.module';
 import { StudentInfosModule } from './student-infos/student-infos.module';
 import { TeacherInfosModule } from './teacher-infos/teacher-infos.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
@@ -25,8 +24,6 @@ import { DashboardModule } from './dashboard/dashboard.module';
     StudentInfosModule,
     TeacherInfosModule,
     DashboardModule
-  ],
-  controllers: [AppController],
-  providers: [AppService]
+  ]
 })
 export class AppModule {}
